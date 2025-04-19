@@ -27,6 +27,16 @@ class Main:                     #mechanika gryu, aby bylo ladniej
             self.fruit.randomize()
             self.snake.addBlock()
 
+        if not 0 <= self.snake.body[0].x < cellNumber or not 0<= self.snake.body[0].y <cellNumber:  #cellNu - * przez cellSi przy rysowaniu > screen
+            self.gameOver()
+
+        for block in self.snake.body[1:]:
+            if block == self.snake.body[0]:
+                self.gameOver()
+
+    def gameOver(self):
+        pygame.quit()
+        sys.exit() 
 
 
 
@@ -54,14 +64,18 @@ while True:
         if event.type == screenUpdate:   #jezeli event to bedzie ten wyslany tik z screenUpdate
             mainGame.update()
         if event.type == pygame.KEYDOWN:    #dla kazdego nacisnietego klawisza
-            if event.key == pygame.K_UP:    
-                mainGame.snake.movingDirection = Vector2(0, -1)          #zmieniamy movingdirection na do gory 
-            if event.key == pygame.K_DOWN:    
-                mainGame.snake.movingDirection = Vector2(0, 1)
-            if event.key == pygame.K_LEFT:    
-                mainGame.snake.movingDirection = Vector2(-1, 0)
+            if event.key == pygame.K_UP:  
+                if mainGame.snake.movingDirection.y !=1: 
+                    mainGame.snake.movingDirection = Vector2(0, -1)          #zmieniamy movingdirection na do gory 
+            if event.key == pygame.K_DOWN:   
+                if mainGame.snake.movingDirection.y !=-1:  
+                    mainGame.snake.movingDirection = Vector2(0, 1)
+            if event.key == pygame.K_LEFT: 
+                if mainGame.snake.movingDirection.x !=1:    
+                    mainGame.snake.movingDirection = Vector2(-1, 0)
             if event.key == pygame.K_RIGHT:    
-                mainGame.snake.movingDirection = Vector2(1, 0)
+                if mainGame.snake.movingDirection.x !=-1: 
+                    mainGame.snake.movingDirection = Vector2(1, 0)
                  
 
     screen.fill((75, 180, 113))   #fillujemy screen kolorem
