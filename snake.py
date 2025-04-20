@@ -107,3 +107,7 @@ class Snake:
 
     def addBlock(self):
         self.newBlock = True
+
+    def reset(self):
+        self.body = [Vector2(7, 10), Vector2(6, 10), Vector2(5, 10)]
+        self.movingDirection = Vector2(0, 0)

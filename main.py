@@ -35,6 +35,10 @@ class Main:                     #mechanika gryu, aby bylo ladniej
             self.fruit.randomize()
             self.snake.addBlock()
 
+        for block in self.snake.body[1:]:
+            if block == self.fruit.pos:
+                self.fruit.randomize()
+
         if not 0 <= self.snake.body[0].x < cellNumber or not 0<= self.snake.body[0].y <cellNumber:  #cellNu - * przez cellSi przy rysowaniu > screen
             self.gameOver()
 
@@ -43,8 +47,7 @@ class Main:                     #mechanika gryu, aby bylo ladniej
                 self.gameOver()
 
     def gameOver(self):
-        pygame.quit()
-        sys.exit() 
+        self.snake.reset() 
 
     def drawGrass(self):
         grassColor = (167, 209, 61)
