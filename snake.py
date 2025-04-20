@@ -15,20 +15,20 @@ class Snake:
         self.movingDirection = Vector2(1, 0)
         self.newBlock = False
 
-        self.headUp = pygame.image.load('images/head_up.png').convert_alpha
-        self.headDown = pygame.image.load('images/head_down.png').convert_alpha
-        self.headLeft = pygame.image.load('images/head_lef.png').convert_alpha
-        self.headRight = pygame.image.load('images/head_right.png').convert_alpha
-        self.tailUp = pygame.image.load('images/tail_up.png').convert_alpha
-        self.tailDown = pygame.image.load('images/tail_down.png').convert_alpha
-        self.tailLeft = pygame.image.load('images/tail_left.png').convert_alpha
-        self.tailRight = pygame.image.load('images/tail_right.png').convert_alpha
-        self.bodyVertical = pygame.image.load('images/body_vertical.png').convert_alpha
-        self.bodyHorizontal = pygame.image.load('images/body_horizontal.png').convert_alpha
-        self.bodyTopLeft = pygame.image.load('images/body_topleft.png').convert_alpha
-        self.bodyTopRight = pygame.image.load('images/body_topright.png').convert_alpha
-        self.bodyBottomLeft = pygame.image.load('images/body_bottomleft.png').convert_alpha
-        self.bodyBottomRight = pygame.image.load('images/body_bottomright.png').convert_alpha
+        self.headUp = pygame.image.load('images/head_up.png').convert_alpha()
+        self.headDown = pygame.image.load('images/head_down.png').convert_alpha()
+        self.headLeft = pygame.image.load('images/head_left.png').convert_alpha()
+        self.headRight = pygame.image.load('images/head_right.png').convert_alpha()
+        self.tailUp = pygame.image.load('images/tail_up.png').convert_alpha()
+        self.tailDown = pygame.image.load('images/tail_down.png').convert_alpha()
+        self.tailLeft = pygame.image.load('images/tail_left.png').convert_alpha()
+        self.tailRight = pygame.image.load('images/tail_right.png').convert_alpha()
+        self.bodyVertical = pygame.image.load('images/body_vertical.png').convert_alpha()
+        self.bodyHorizontal = pygame.image.load('images/body_horizontal.png').convert_alpha()
+        self.bodyTopLeft = pygame.image.load('images/body_topleft.png').convert_alpha()
+        self.bodyTopRight = pygame.image.load('images/body_topright.png').convert_alpha()
+        self.bodyBottomLeft = pygame.image.load('images/body_bottomleft.png').convert_alpha()
+        self.bodyBottomRight = pygame.image.load('images/body_bottomright.png').convert_alpha()
 
     def drawSnake(self):
 
@@ -37,6 +37,8 @@ class Snake:
 
             if index == 0:                        #glowa
                 screen.blit(self.headRight, snakeRect)
+            else:
+                pygame,.draw.rect(screen, (150, 100, 100), snakeRect)
 
     def moveSnake(self):
         if self.newBlock == True:
