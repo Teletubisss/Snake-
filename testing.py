@@ -28,3 +28,11 @@ while True:                                   #bedzie caly czas prawdziwa, dopok
 
     pygame.display.update()                     #wrzxuca na ekran to, co my rysujem,y na tzw. sufrace - buforze ekranu
     clock.tick(60)                             #liczy czas co 60fps - gdyby nie to to na roznych kompach lecialoby szybciej lub woniei
+
+
+
+for block in self.body:     #dla kazddego blocku (nazwa random) w snaku (selfbody wyzej)
+    snakeRect = pygame.Rect(block.x * cellSize, block.y * cellSize, cellSize, cellSize) #np dla 1 block bierzemy wspolrzedna x i aby byla kratka
+    pygame.draw.rect(screen, (183, 111, 122), snakeRect)
+
+pygame.draw.rect(screen, (126, 166, 114), fruitRect)  #rysujemy na screenie fruitRect

@@ -7,7 +7,8 @@ cellSize = 40
 cellNumber = 20
 screen = pygame.display.set_mode((cellNumber *cellSize, cellNumber *cellSize))   
 clock = pygame.time.Clock() 
-
+apple = pygame.image.load('images/apple.png').convert_alpha()   #konwertuje aby bylo prosciej dla pygame
+apple = pygame.transform.scale(apple, (cellSize, cellSize))
 
 class Fruit:
     def __init__(self):
@@ -15,7 +16,7 @@ class Fruit:
 
     def drawFruit(self):
         fruitRect = pygame.Rect(self.pos.x * cellSize, self.pos.y * cellSize, cellSize, cellSize) #mnozymy, aby byla git grafika
-        pygame.draw.rect(screen, (126, 166, 114), fruitRect)
+        screen.blit(apple, fruitRect)                    #co chcemy narysowac i gdzie chcemy narusowac
 
     def randomize(self):
         self.x = random.randint(0, cellNumber - 1) #byloby za ekranem - obiekt od lewego gornego rogu  - nazwa x random
