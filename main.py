@@ -6,7 +6,13 @@ from snake import Snake
 from fruit import Fruit
 
 
+pygame.init()   
 
+cellSize = 40
+cellNumber = 20
+apple = pygame.image.load('images/apple.png').convert_alpha()   #konwertuje aby bylo prosciej dla pygame
+apple = pygame.transform.scale(apple, (cellSize, cellSize))
+screen = pygame.display.set_mode((cellNumber *cellSize, cellNumber *cellSize))   
 
 
 class Main:                     #mechanika gryu, aby bylo ladniej
@@ -19,8 +25,10 @@ class Main:                     #mechanika gryu, aby bylo ladniej
         self.checkCollision()
 
     def drawElements(self):
+        self.drawGrass()                    #bez obiektu, bo na sobie rysujemy
         self.fruit.drawFruit()    #wywolujemy u obiektu fruit funkcje drawFruit
         self.snake.drawSnake()
+        self.drawScore()
 
     def checkCollision (self):
         if self.fruit.pos == self.snake.body[0]:
@@ -38,14 +46,41 @@ class Main:                     #mechanika gryu, aby bylo ladniej
         pygame.quit()
         sys.exit() 
 
+    def drawGrass(self):
+        grassColor = (167, 209, 61)
+        for row in range(cellNumber):
+            if row % 2 == 0:
+                for col in range(cellNumber):
+                    if col % 2 == 0:                                           #parzyste
+                        grassRect = pygame.Rect(col * cellSize ,row * cellSize,cellSize, cellSize)  #znajduje sie w danej kol (mnozymy przez cS, aby byla siatka)
+                        pygame.draw.rect(screen, grassColor, grassRect)
+            else:
+                for col in range(cellNumber):
+                    if col % 2 != 0:                                           #nieparzyste
+                        grassRect = pygame.Rect(col * cellSize ,row * cellSize,cellSize, cellSize)  #znajduje sie w danej kol (mnozymy przez cS, aby byla siatka)
+                        pygame.draw.rect(screen, grassColor, grassRect)
+
+    def drawScore(self):
+        scoreText = str(len(self.snake.body) - 3)
+        scoreSurface = gameFont.render(scoreText, True, (56,74,12))  #tworzymy grafika z napisem (mp surface z "hejka") - (tekst, wygladzanie, kolor)
+        scoreX = cellSize*cellNumber - 60
+        scoreY = cellSize*cellNumber - 40
+        scoreRect = scoreSurface.get_rect(center = (scoreX, scoreY))  #ustawiamy środek (center) na jakies x,y. Rect obliocza rozmiar obrazu i ustawia
+        appleRect = apple.get_rect(midright = (scoreRect.left, scoreRect.centery))
+
+        bgRect = pygame.Rect(appleRect.left, appleRect.top, appleRect.width + scoreRect.width + 6, appleRect.height + 3)
+        pygame.draw.rect(screen, (167, 209, 161), bgRect)
+        pygame.draw.rect(screen, (56,74,12), bgRect, 2)
+        screen.blit(apple, appleRect)
+        screen.blit(scoreSurface, scoreRect)
 
 
-pygame.init()                               
 
-cellSize = 40
-cellNumber = 20
-screen = pygame.display.set_mode((cellNumber *cellSize, cellNumber *cellSize))   
+pygame.init() 
 clock = pygame.time.Clock() 
+gameFont = pygame.font.Font('fonts/StardewValley.ttf', 25)                        
+
+
 
 screenUpdate = pygame.USEREVENT  #wlasny event (jeszcze nie wiemy jaki)mamy do wykorzystania 9 eventow, to jest pierwszy - nastepny to userevent + 1
 pygame.time.set_timer(screenUpdate, 150)         #ustawiamy timer i wysyla sie tik co 150 milisekund w formie userevent         
@@ -78,7 +113,7 @@ while True:
                     mainGame.snake.movingDirection = Vector2(1, 0)
                  
 
-    screen.fill((75, 180, 113))   #fillujemy screen kolorem
+    screen.fill((167, 209, 121))   #fillujemy screen kolorem
 
     mainGame.drawElements()
 

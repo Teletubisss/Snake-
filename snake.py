@@ -30,15 +30,62 @@ class Snake:
         self.bodyBottomLeft = pygame.image.load('images/body_bottomleft.png').convert_alpha()
         self.bodyBottomRight = pygame.image.load('images/body_bottomright.png').convert_alpha()
 
+
+    def headGraphics(self):
+        headRelation = self.body[1] - self.body[0]              #roznica miedzy 1 a 2 blokiem, aby ustalic kierunek weza
+
+        if headRelation == Vector2(-1, 0):
+            self.head = self.headRight                           #przypiosujemy do self.head dany obrazek
+        elif headRelation == Vector2(1, 0):
+            self.head = self.headLeft
+        elif headRelation == Vector2(0, 1):
+            self.head = self.headUp
+        elif headRelation == Vector2(0, -1):
+            self.head = self.headDown
+
+    def tailGraphics(self):
+        tailRelation = self.body[-2] - self.body[-1]              #roznica miedzy ostatnim a przedostartnim elementem weza
+
+        if tailRelation == Vector2(-1, 0):
+            self.tail = self.tailRight                           #przypiosujemy do self.head dany obrazek
+        elif tailRelation == Vector2(1, 0):
+            self.tail = self.tailLeft
+        elif tailRelation == Vector2(0, 1):
+            self.tail = self.tailUp
+        elif tailRelation == Vector2(0, -1):
+            self.tail = self.tailDown 
+
+
+
     def drawSnake(self):
+        
+        self.headGraphics()
+        self.tailGraphics()
 
         for index, block in enumerate(self.body):             #dla kazdego blocku w indexach body (indexuje)  np. index 0 , block Vector2(5,10)
-            snakeRect = pygame.Rect(block.x * cellSize, block.y * cellSize, cellSize, cellSize)  #potrzebujem,y rect aby dac tam snakea
+            snakeRect = pygame.Rect(block.x * cellSize, block.y * cellSize, cellSize, cellSize)  #potrzebujemy rect aby dac tam snakea
 
-            if index == 0:                        #glowa
-                screen.blit(self.headRight, snakeRect)
+            if index == 0:                                    #glowa
+                screen.blit(self.head, snakeRect)              #w zaleznosci od kierunku wyzej narysuje dany obrazek w snakeRect w bloku 0
+            elif index == len(self.body) - 1:
+                screen.blit(self.tail, snakeRect)           
             else:
-                pygame,.draw.rect(screen, (150, 100, 100), snakeRect)
+                previousBlock = self.body[index +1] - block     #dostajemy vector z indexem jeden wyzej i demujmey current, aby byla roznica
+                nextBlock = self.body[index - 1] - block          #vector z indexem jeden nizej i odejmujemy curent, aby byla roznica i kierunek
+                if previousBlock.x == nextBlock.x:
+                    screen.blit(self.bodyVertical, snakeRect)
+                elif previousBlock.y == nextBlock.y:
+                    screen.blit(self.bodyHorizontal, snakeRect)
+                elif previousBlock.x == -1 and nextBlock.y == -1 or previousBlock.y == -1 and nextBlock.x == -1: #sprawdzamy jaka jest roznica miedzy wspolrzednymi poprzedniego, teraz i nastpengo bloku (narysuj sobie!!)
+                    screen.blit(self.bodyTopLeft, snakeRect)
+                elif previousBlock.x == -1 and nextBlock.y == 1 or previousBlock.y == 1 and nextBlock.x == -1:
+                    screen.blit(self.bodyBottomLeft, snakeRect)
+                elif previousBlock.x == 1 and nextBlock.y == -1 or previousBlock.y == -1 and nextBlock.x == 1:
+                    screen.blit(self.bodyTopRight, snakeRect)
+                elif previousBlock.x == 1 and nextBlock.y == 1 or previousBlock.y == 1 and nextBlock.x == 1:
+                    screen.blit(self.bodyBottomRight, snakeRect)
+
+
 
     def moveSnake(self):
         if self.newBlock == True:
